@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Android With Kotlin</string>
+    <string name="temperature_label">Temperature</string>
+    <string name="feels_like_label">Feels like</string>
+    <string name="city_coordinates" translatable="false">lt/ln: %s, %s"</string>
+    <string name="error">Error!</string>
+    <string name="reload">Reload</string>
+    <string name="error_happened">Error happened</string>
+    <string name="history">История</string>
+    <string name="need_permissions_to_read_contacts">Необходимо предоставить разрешение для чтения контактов</string>
+    <string name="contacts">Контакты</string>
+
+
+</resources>
