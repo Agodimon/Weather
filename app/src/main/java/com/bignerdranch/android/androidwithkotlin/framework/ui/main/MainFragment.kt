@@ -2,38 +2,29 @@ package com.bignerdranch.android.androidwithkotlin.framework.ui.main
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bignerdranch.android.androidwithkotlin.AppState
 import com.bignerdranch.android.androidwithkotlin.R
 import com.bignerdranch.android.androidwithkotlin.databinding.MainFragmentBinding
-import com.bignerdranch.android.androidwithkotlin.framework.ui.details.DetailsFragment
 import com.bignerdranch.android.androidwithkotlin.framework.ui.adapters.MainFragmentAdapter
+import com.bignerdranch.android.androidwithkotlin.framework.ui.details.DetailsFragment
 import com.bignerdranch.android.androidwithkotlin.model.entities.Weather
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.main_fragment) {
     private val IS_WORLD_KEY = "LIST_OF_TOWNS_KEY"
-    private var isDataSetWorld: Boolean = false
 
     private val viewModel: MainViewModel by viewModel()
-    private var _binding: MainFragmentBinding? = null
-    private val binding get() = _binding!!
+
 
     private var adapter: MainFragmentAdapter? = null
     private var isDataSetRus: Boolean = true
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = MainFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val binding by viewBinding(MainFragmentBinding::bind)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,16 +35,7 @@ class MainFragment : Fragment() {
             loadDataSet()
             mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
             viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
-
-
         }
-
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun initDataSet() {

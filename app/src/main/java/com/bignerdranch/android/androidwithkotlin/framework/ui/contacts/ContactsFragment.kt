@@ -1,27 +1,24 @@
 package com.bignerdranch.android.androidwithkotlin.framework.ui.contacts
 
-import android.app.Activity
-import android.app.Instrumentation
-import android.content.ActivityNotFoundException
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.provider.ContactsContract
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bignerdranch.android.androidwithkotlin.R
 import com.bignerdranch.android.androidwithkotlin.databinding.FragmentContactsBinding
-import android.Manifest
-import android.database.Cursor
-import android.provider.ContactsContract
-import androidx.appcompat.widget.AppCompatTextView
+import com.bignerdranch.android.androidwithkotlin.toast
 
-class ContactsFragment : Fragment() {
-    private var _binding: FragmentContactsBinding? = null
-    private val binding get() = _binding!!
+class ContactsFragment : Fragment(R.layout.fragment_contacts) {
+    private val binding by viewBinding(FragmentContactsBinding::bind)
 
     private val permissionResult =
         registerForActivityResult(
@@ -30,31 +27,13 @@ class ContactsFragment : Fragment() {
             if (result) {
                 getContacts()
             } else {
-                Toast.makeText(
-                    context,
-                    getString(R.string.need_permissions_to_read_contacts),
-                    Toast.LENGTH_SHORT
-                ).show()
+                toast(getString(R.string.need_permissions_to_read_contacts))
             }
         }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentContactsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     private fun checkPermission() {
@@ -77,6 +56,7 @@ class ContactsFragment : Fragment() {
         permissionResult.launch(android.Manifest.permission.READ_CONTACTS)
     }
 
+    @SuppressLint("Range")
     private fun getContacts() {
         context?.let {
             // Отправляем запрос на получение контактов и получаем ответ в виде Cursor'а
@@ -116,5 +96,4 @@ class ContactsFragment : Fragment() {
         @JvmStatic
         fun newInstance() = ContactsFragment()
     }
-
 }

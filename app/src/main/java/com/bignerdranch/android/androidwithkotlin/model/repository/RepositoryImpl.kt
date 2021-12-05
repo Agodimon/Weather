@@ -1,6 +1,5 @@
 package com.bignerdranch.android.androidwithkotlin.model.repository
 
-import com.bignerdranch.android.androidwithkotlin.model.WeatherLoader
 import com.bignerdranch.android.androidwithkotlin.model.database.Database
 import com.bignerdranch.android.androidwithkotlin.model.database.HistoryEntity
 import com.bignerdranch.android.androidwithkotlin.model.entities.City
