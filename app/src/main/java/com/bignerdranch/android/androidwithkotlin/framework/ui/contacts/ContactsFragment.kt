@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.bignerdranch.android.androidwithkotlin.R
 import com.bignerdranch.android.androidwithkotlin.databinding.FragmentContactsBinding
 import android.Manifest
+import android.annotation.SuppressLint
 import android.database.Cursor
 import android.provider.ContactsContract
 import androidx.appcompat.widget.AppCompatTextView
@@ -77,6 +78,7 @@ class ContactsFragment : Fragment() {
         permissionResult.launch(android.Manifest.permission.READ_CONTACTS)
     }
 
+    @SuppressLint("Range")
     private fun getContacts() {
         context?.let {
             // Отправляем запрос на получение контактов и получаем ответ в виде Cursor'а
