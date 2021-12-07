@@ -4,7 +4,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.androidwithkotlin.AppState
-import com.bignerdranch.android.androidwithkotlin.model.entities.Weather
 import com.bignerdranch.android.androidwithkotlin.model.repository.Repository
 
 class DetailsViewModel(private val repository: Repository) : ViewModel(), LifecycleObserver {
