@@ -7,7 +7,6 @@ import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -59,7 +58,6 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
     @SuppressLint("Range")
     private fun getContacts() {
         context?.let {
-            // Отправляем запрос на получение контактов и получаем ответ в виде Cursor'а
             val cursorWithContacts: Cursor? = it.contentResolver.query(
                 ContactsContract.Contacts.CONTENT_URI,
                 null,
@@ -70,9 +68,7 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
 
             cursorWithContacts?.let { cursor ->
                 for (i in 0..cursor.count) {
-                    // Переходим на позицию в Cursor'е
                     if (cursor.moveToPosition(i)) {
-                        // Берём из Cursor'а столбец с именем
                         val name =
                             cursor.getString(
                                 cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
