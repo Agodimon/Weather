@@ -5,28 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bignerdranch.android.androidwithkotlin.AppState
-import com.bignerdranch.android.androidwithkotlin.R
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bignerdranch.android.androidwithkotlin.*
 import com.bignerdranch.android.androidwithkotlin.databinding.DetailsFragmentBinding
+import com.bignerdranch.android.androidwithkotlin.databinding.MainFragmentBinding
 import com.bignerdranch.android.androidwithkotlin.model.entities.Weather
 import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class DetailsFragment : Fragment() {
+class DetailsFragment : Fragment(R.layout.details_fragment) {
 
-    private var _binding: DetailsFragmentBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: DetailsViewModel by viewModel()
-
-    override
-    fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = DetailsFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val binding by viewBinding(DetailsFragmentBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,17 +33,17 @@ class DetailsFragment : Fragment() {
                 viewModel.liveDataToObserve.observe(viewLifecycleOwner, { appState ->
                     when (appState) {
                         is AppState.Error -> {
-                            mainView.visibility = View.INVISIBLE
-                            loadingLayout.visibility = View.GONE
-                            errorTV.visibility = View.VISIBLE
+                            mainView.invisible()
+                            loadingLayout.hide()
+                            errorTV.show()
                         }
                         AppState.Loading -> {
-                            mainView.visibility = View.INVISIBLE
-                            binding.loadingLayout.visibility = View.VISIBLE
+                            mainView.invisible()
+                            binding.loadingLayout.show()
                         }
                         is AppState.Success -> {
-                            loadingLayout.visibility = View.GONE
-                            mainView.visibility = View.VISIBLE
+                            loadingLayout.hide()
+                            mainView.show()
                             temperatureValue.text = appState.weatherData[0].temperature.toString()
                             feelsLikeValue.text = appState.weatherData[0].feelsLike.toString()
                             weatherCondition.text = appState.weatherData[0].condition
@@ -68,11 +59,6 @@ class DetailsFragment : Fragment() {
                     .into(imageView)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

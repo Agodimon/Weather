@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.androidwithkotlin.databinding.ItemHistoryListBinding
 import com.bignerdranch.android.androidwithkotlin.model.entities.Weather
-
+import com.bignerdranch.android.androidwithkotlin.toast
 
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolder>() {
@@ -47,6 +47,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolde
                         "on click: ${data.city.city}",
                         Toast.LENGTH_SHORT
                     ).show()
+
                 }
             }
         }
