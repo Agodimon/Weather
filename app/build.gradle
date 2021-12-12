@@ -18,7 +18,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        def yandexApiKey = properties.getProperty("yandex_api_key", "")
+        it.buildConfigField "String", "YANDEX_API_KEY", yandexApiKey
+    }
 
     buildTypes {
         release {
@@ -34,60 +39,67 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding  true
     }
 }
 
 dependencies {
 
+    // support library
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'com.google.android.material:material:1.6.0-alpha01'
 
-    //lifecycle for organization pattern MVVM
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    // retrofit
+    def retrofit_version = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit_version"
 
-    //Retrofit2
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // gson
+    implementation 'com.google.code.gson:gson:2.8.9'
 
-    //Picasso
-    implementation 'com.squareup.picasso:picasso:2.8'
+    // okhttp
+    def okhttp_version = '5.0.0-alpha.3'
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
-    //jUnit
+    // picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // room
+    def room_version = '2.3.0'
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava3:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // KirilRosovVBDelegate
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.3'
+
+    // dagger2
+    def dagger_version = '2.40.5'
+    implementation "com.google.dagger:dagger:${dagger_version}"
+    implementation "com.google.dagger:dagger-android:${dagger_version}"
+    implementation "com.google.dagger:dagger-android-support:${dagger_version}"
+    kapt "com.google.dagger:dagger-compiler:${dagger_version}"
+    kapt "com.google.dagger:dagger-android-processor:${dagger_version}"
+
+    // rxJava
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.3'
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
+
+    // cicerone
+    implementation 'com.github.terrakok:cicerone:7.1'
+
+    // logger
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    // jUnit
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'com.google.android.material:material:1.5.0-alpha01'
-
-    //Koin
-    implementation 'io.insert-koin:koin-android:3.0.2'
-
-    //ROOM
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'androidx.room:room-runtime:2.3.0'
-    kapt 'androidx.room:room-compiler:2.3.0'
-
-    //OkHTTP
-    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
-
-    //KirilRosovVBDelegate
-    implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.0-beta01'
-
-    //DAGGER2
-    implementation 'com.google.dagger:dagger:2.38.1'
-    implementation 'com.google.dagger:dagger-android:2.38.1'
-    implementation 'com.google.dagger:dagger-android-support:2.38.1'
-    kapt 'com.google.dagger:dagger-compiler:2.38.1'
-    kapt 'com.google.dagger:dagger-android-processor:2.38.1'
-
-    // RxJava
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.2'
-
-    //Cicerone
-    implementation 'com.github.terrakok:cicerone:7.1'
 }
